@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTML5 Canvas</title>
+    <style>
+      html, body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800"></canvas>
+
+    <script>
+      const canvas = document.querySelector('#draw');
+      // a context is a block of pixles you can draw on so you dont draw directly on the HTML5 canvas
+      const ctx = canvas.getContext('2d');
+      // set the width and the height
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx.strokeStyle = '#BADA55';
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 10;
+      // check out the various blend modes here: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
+      ctx.globalCompositeOperation = 'multiply';
+      // this variable will toggle boolean values to indicated when the
+      // canvas is being drawn on or not on mouse down
+      let isDrawing = false;
+      // this indicates the coordinates of where you start and stop drawing
+      let lastX = 0;
+      let lastY = 0;
+      // http://mothereffinghsl.com/
+      let hue = 0;
+      let direction = true;
+
+      // this function listens to the movements of the mouse on the canvas
+      function draw(e) {
+        if (!isDrawing) {
+          return
+        }
+        console.log(e);
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        // ctx.lineWidth = hue; // this allows the width of the stroke to change
+        ctx.beginPath();
+        // start from values set for lastX and lastY
+        ctx.moveTo(lastX, lastY);
+        // go to the offsetX and offsetY values coming from the event listeners
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        [ lastX, lastY ] = [ e.offsetX, e.offsetY ]; // set the value of lastX/Y varibles after you call stroke otherwise the stroke will appear faint
+        hue ++;
+        if (hue > 360) {
+          hue = 0; // this sets a limit to the changing hsl number
+        }
+
+        // if direction is greater than 100 switch directions value
+        // and if direction id less than one switch the value
+        if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+          direction = !direction;
+        }
+
+        // this if/else statement increments or decrements the value of direction
+        if (direction) {
+          ctx.lineWidth++;
+        } else {
+          ctx.lineWidth--;
+        }
+      }
+
+      // These event listeners toggle the isDrawing variable b/t true and false
+      canvas.addEventListener('mousemove', draw)
+      canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        [ lastX, lastY ] = [ e.offsetX, e.offsetY ];
+      });
+      canvas.addEventListener('mouseup', () => isDrawing = false);
+      canvas.addEventListener('mouseout', () => isDrawing = false);
+    </script>
+  </body>
+</html>
