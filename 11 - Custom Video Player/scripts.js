@@ -55,7 +55,7 @@ ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
 
 let mousedown = false;
 progressBar.addEventListener('click', scrub);
-// in this case the scrub acts as a callback if it meet both conditions
+// in this case the scrub acts as a callback if it meets both conditions
 progressBar.addEventListener('mousemove', (e) => mousedown && scrub(e));
 progressBar.addEventListener('mousedown', () => mousedown = true);
 progressBar.addEventListener('mouseup', () => mousedown = false);

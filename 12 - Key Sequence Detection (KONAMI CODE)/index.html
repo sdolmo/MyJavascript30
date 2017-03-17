@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Key Detection</title>
+    <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+  </head>
+  <body>
+    <script>
+      const pressed = [];
+      const secretCode = 'sylvia'
+
+      console.log(-secretCode.length);
+
+      window.addEventListener('keyup', (e) => {
+        // STEP 1: collect key strokes in an array
+        pressed.push(e.key);
+        // The starting point of removing elements in the array should be one plus the length of the secret code
+        // because if were to start with the negative value of the secretCode length, the first value in the array would always be the same
+        // and it is a negative value because we want the direction of deletion to be from the back to the front
+        // The second parameter has to be the length of the array subtracted by a value otherwise the array would be empty
+        pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+        // STEP 2: check if the values in the array are equal to the secretCode
+        if (pressed.join('').includes(secretCode)) {
+          console.log('YOU GOT IT!');
+          cornify_add();
+        }
+        console.log(pressed);
+        console.log(pressed.length);
+      })
+    </script>
+  </body>
+</html>
