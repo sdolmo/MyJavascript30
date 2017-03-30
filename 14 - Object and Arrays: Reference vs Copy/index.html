@@ -11,6 +11,7 @@
     let age = 100;
     let age2 = age;
     console.log(age, age2);
+    // changing the original age/name does not update the old value
     age = 200;
     console.log(age, age2);
 
@@ -39,7 +40,7 @@
         // team = ["Wes", "Sarah", "Ryan", "Princess"]
         // players = ["Wes", "Sarah", "Ryan", "Princess"]
 
-      //Here we se that team is not its own array, but a reference to the original players array
+      //Here we see that team is not its own array, but a reference to the original players array
       // **TEAMS is NOT a copy of players
 
     // now here is the problem!
@@ -61,7 +62,7 @@
     const team3 = [].concat(players);
 
 
-    // or use the new ES6 Spread
+    // or use the new ES6 Spread operator
     const team4 = [...players];
 
     const team5 = Array.from(players);
@@ -106,10 +107,10 @@
     // cloning an object
     const dev = Object.assign({}, wes); // In this case the social object will be a refererence of the original object, not a clone
 
-    // 'poor mans' solution to cloning an obj
+    // 'poor mans' solution to cloning an obj (two levels deep clone i.e. - social)
     const dev2 = JSON.parse(JSON.stringify(wes));
-
-
+    // this process first converts the wes object to a string
+    // afterwards the parse method converts it back to an object 
 
   </script>
 
