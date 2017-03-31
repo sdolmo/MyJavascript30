@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mouse Shadow</title>
+  </head>
+  <body>
+
+    <div class="hero">
+      <!-- The contenteditable attribute specifies whether the content of an element is editable or not. -->
+      <h1 contenteditable>🍰CAKE!</h1>
+    </div>
+
+    <style>
+      html {
+        color: #000;
+        font-family: sans-serif;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+      }
+
+      h1 {
+        text-shadow: 10px 10px 4px rgba(0,0,0,1);
+        font-size: 100px;
+      }
+    </style>
+
+    <script>
+      const hero = document.querySelector('.hero');
+      const text = hero.querySelector('h1');
+      const walk = 100 // this indicates that the shadow will stretch 100px away from the h1 element
+
+      function shadow(e) {
+        // create a width and height variable from the hero offsetWidth/offsetHeight property
+        // using the ES6 distructuring method
+        const { offsetWidth: width, offsetHeight: height } = hero;
+
+        // create x and y variables from the event offsetX/offsetY attributes
+        // using the ES6 distructuring method
+        // let is used to reassign the values
+        let { offsetX: x, offsetY: y } = e;
+
+        // In order to normalize the x and y values when hovering over the h1 element
+        // create an if statement that states if the hero and the target value of this event are not the same
+        // add the distance of the current element ralative to the top and left of the parent node (hence offsetTop / offsetLeft)
+        // to the current x and y values
+        if (this !== e.target) { // 'this' is equivalent to the element we're listening on (aka: hero)
+        // And e.target changes depending on the exact value the mouse hovers over or clicks
+          x = x + e.target.offsetLeft;
+          y = y + e.target.offsetTop;
+        }
+
+        // Do the math to determin the x and y value of the shadow
+        const xWalk = Math.round((x / width * walk) - (walk / 2));
+        const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+        // Change the text-shadow value with template literals
+        text.style.textShadow = `
+          ${xWalk}px ${yWalk}px 4px rgba(255,0,255,0.7)
+        `
+        console.log(x, y);
+        console.log(width, height);
+      }
+
+      hero.addEventListener('mousemove', shadow);
+    </script>
+  </body>
+</html>
